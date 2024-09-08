@@ -1,8 +1,8 @@
 package org.onlineShop.application.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.onlineShop.domain.order.model.Order;
 import org.onlineShop.domain.order.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +21,6 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     @Override
     public Order getById(Long id) {
-        return jpaOrderRepository.findByOrderId(id);
+        return jpaOrderRepository.findOrderById(id).orElseThrow(() -> new RuntimeException("Order not found"));
     }
 }
