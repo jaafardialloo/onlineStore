@@ -38,6 +38,16 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
+              - column:
+                  name: fulfillment_method
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: estimated_delivery_date
+                  type: timestamp
+                  constraints:
+                    nullable: true
         - addForeignKeyConstraint:
             baseTableName: item
             baseColumnNames: order_id
