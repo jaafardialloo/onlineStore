@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.graalvm.buildtools.native' version '0.10.2'
+	id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
 group = 'KataGroup'
@@ -20,14 +21,33 @@ configurations {
 	}
 }
 
+jib {
+	from {
+		image = 'adoptopenjdk'
+	}
+	to {
+		image = 'diallojaafar/betaclicartifactories:store-1.0.snapshot'
+		auth {
+			username = 'username'
+			password = 'password'
+		}
+	}
+	container {
+		jvmFlags = ['-Xms512m', '-Xmx1024m']
+		ports = ['19000']
+	}
+}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.liquibase:liquibase-core'
 	runtimeOnly 'org.postgresql:postgresql'
 	compileOnly 'org.projectlombok:lombok'
