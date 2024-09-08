@@ -21,6 +21,6 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     @Override
     public Order getById(Long id) {
-        return jpaOrderRepository.findOrderById(id).orElseThrow();
+        return jpaOrderRepository.findOrderById(id).orElseThrow(() -> new RuntimeException("Order not found"));
     }
 }
