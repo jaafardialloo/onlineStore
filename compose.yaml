@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_DB: store_db
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "32800:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0.1
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_PORT: 32800
+      DB_DATABASE: store_db
+      DB_USER: myuser
+      DB_PASSWORD: secret
+    ports:
+      - "32801:8080"
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+    command: ["start-dev"]
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
