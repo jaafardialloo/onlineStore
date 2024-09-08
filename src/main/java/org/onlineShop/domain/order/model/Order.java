@@ -25,6 +25,15 @@ public class Order {
     private FulfilmentMethod fulfillmentMethod;
     private LocalDateTime estimatedDeliveryDate;
 
+    public void setFulfillmentMethod(FulfilmentMethod method) {
+        this.fulfillmentMethod = method;
+        calculateEstimatedDeliveryDate();
+    }
+
+    private void calculateEstimatedDeliveryDate() {
+        this.estimatedDeliveryDate = this.fulfillmentMethod.getEstimatedDeliveryDate();
+    }
+
     public void addOrderToItems() {
         this.items.forEach(item -> item.setOrder(this));
     }
